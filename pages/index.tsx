@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { StateType } from './api/hello';
 import { FetchError } from '@/error/fetch-error';
+import { fetchOk } from '@/error/fetch-ok';
 
 interface ContextType {
   previousData: StateType;
@@ -23,13 +24,7 @@ export default function Home() {
         method: 'POST',
       });
       const data = await response.json();
-      const isFailed = !response.ok;
-      if (isFailed) {
-        throw new FetchError({
-          status: response.status,
-          message: data.error,
-        });
-      }
+      fetchOk(response, data);
       return data;
     },
     onMutate: async (data): Promise<{ previousData: StateType }> => {
