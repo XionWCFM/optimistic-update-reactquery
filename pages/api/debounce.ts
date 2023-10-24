@@ -4,10 +4,14 @@ const MOCK_DATA = ['todos1', 'todos2'];
 
 export type MockApiType = typeof MOCK_DATA;
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   switch (req.method) {
     case 'POST':
-      MOCK_DATA.push(req.body?.test);
+      const BODY = req.body as { test: string };
+      MOCK_DATA.push(BODY.test);
       return res.status(201).json(MOCK_DATA);
     case 'GET':
       return res.status(200).json(MOCK_DATA);
