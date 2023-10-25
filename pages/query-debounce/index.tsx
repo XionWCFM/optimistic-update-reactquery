@@ -54,7 +54,7 @@ type MutationArg = {
 };
 
 const DEBOUNCE_QUERY_KEY_FACTORY = {
-  DEFAULT: 'debounce' as const,
+  ALL: 'debounce' as const,
 };
 
 const useDebounceMutation = () => {
@@ -72,7 +72,7 @@ const useDebounceMutation = () => {
       return data;
     },
     onSettled: () => {
-      queryClient.invalidateQueries([DEBOUNCE_QUERY_KEY_FACTORY.DEFAULT]);
+      queryClient.invalidateQueries([DEBOUNCE_QUERY_KEY_FACTORY.ALL]);
     },
   });
   return debouceMutation;
@@ -88,7 +88,7 @@ const useDebouncingHandler = (debounceTime = 1000) => {
 
 const useGetDebounceQuery = () => {
   const debounceQuery = useSuspenseQuery<MockApiType>(
-    [DEBOUNCE_QUERY_KEY_FACTORY.DEFAULT],
+    [DEBOUNCE_QUERY_KEY_FACTORY.ALL],
     async () => {
       const response = await fetch(`http://localhost:3000/api/debounce`);
       const data = response.json();
